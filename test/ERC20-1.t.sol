@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 import "../lib/forge-std/src/Test.sol";
 import "../src/ERC20.sol";
 
-contract DRMtest is Test{
+contract DreamTokenTest1 is Test {
     ERC20 drm_token;
     address internal constant alice = address(1);
     address internal constant bob = address(2);
