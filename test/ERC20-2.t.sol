@@ -19,11 +19,42 @@ contract DreamTokenTest2 is ERC20, Test {
         assertEq(balanceOf(alice), 100 ether);
     }
 
+    function testMultiMint() public {
+        _mint(alice, 100 ether);
+        assertEq(balanceOf(alice), 100 ether);
+        assertEq(totalSupply(), 200 ether);
+        
+        _mint(bob, 10 ether);
+        assertEq(balanceOf(bob), 10 ether);
+        assertEq(totalSupply(), 210 ether);
+
+        _mint(bob, 1 ether);
+        assertEq(balanceOf(bob), 11 ether);
+        assertEq(totalSupply(), 211 ether);
+    }
+
+    function testFailMintOverflow() public {
+        uint256 amount = type(uint256).max - totalSupply() + 1;
+        _mint(alice, amount);
+    }
+
     function testBurn() public {
         _mint(alice, 100 ether);
         assertEq(totalSupply(), 200 ether);
         assertEq(balanceOf(alice), 100 ether);
         _burn(alice, 100 ether);
+        assertEq(totalSupply(), 100 ether);
+        assertEq(balanceOf(alice), 0);
+    }
+
+    function testMultiBurn() public {
+        _mint(alice, 100 ether);
+        assertEq(totalSupply(), 200 ether);
+        assertEq(balanceOf(alice), 100 ether);
+        _burn(alice, 50 ether);
+        assertEq(totalSupply(), 150 ether);
+        assertEq(balanceOf(alice), 50 ether);
+        _burn(alice, 50 ether);
         assertEq(totalSupply(), 100 ether);
         assertEq(balanceOf(alice), 0);
     }
